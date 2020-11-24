@@ -1,6 +1,6 @@
 {
   "name": "@arist0tl3/template-about-cards",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Easily bring cards into your Koji&#x27;s about context",
   "author": "arist0tl3",
   "license": "MIT",
@@ -23,11 +23,13 @@
     "predeploy": "cd example && npm install && npm run build",
     "deploy": "gh-pages -d example/build"
   },
-  "peerDependencies": {
-    "axios": "^0.20.0",
-    "react": "^16.13.1",
+  "dependencies": {
     "react-swipeable": "^6.0.0",
     "styled-components": "^5.1.0"
+  },
+  "peerDependencies": {
+    "axios": "^0.20.0",
+    "react": "^16.13.1"
   },
   "devDependencies": {
     "axios": "^0.20.0",
@@ -44,9 +46,7 @@
     "gh-pages": "^2.2.0",
     "microbundle-crl": "^0.13.10",
     "npm-run-all": "^4.1.5",
-    "react-scripts": "^3.4.1",
-    "react-swipeable": "^6.0.0",
-    "styled-components": "^5.1.0"
+    "react-scripts": "^3.4.1"
   },
   "files": [
     "dist"
