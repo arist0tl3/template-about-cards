@@ -2,27 +2,33 @@
 
 > Easily bring cards into your Koji&#x27;s about context
 
-[![NPM](https://img.shields.io/npm/v/template-about-cards.svg)](https://www.npmjs.com/package/template-about-cards) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-
 ## Install
 
 ```bash
-npm install --save template-about-cards
+npm install --save @arist0tl3/template-about-cards
 ```
 
 ## Usage
 
 ```jsx
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import AboutCards from '@arist0tl3/template-about-cards';
+import { FeedSdk } from '@withkoji/vcc';
 
-import MyComponent from 'template-about-cards'
-import 'template-about-cards/dist/index.css'
+const feed = new FeedSdk();
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
-}
+const config = {
+  // Your default config here
+};
+
+const About = () => (
+  <AboutCards
+      config={config}
+      configURL={'https://api.npoint.io/your-endpoint'}
+      onCreateRemix={() => feed.createRemix()}
+    />
+);
+
 ```
 
 ## License
