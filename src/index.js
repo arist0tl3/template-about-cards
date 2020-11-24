@@ -71,6 +71,11 @@ const CopyHeader = styled.header`
   font-weight: bold;
   line-height: 35.5px;
 
+  @media screen and (max-height: 500px) {
+    font-size: 16px;
+    line-height: 22.5px;
+  }
+
   @media screen and (max-height: 600px) {
     font-size: 20px;
     line-height: 27.5px;
@@ -82,6 +87,11 @@ const CopyParagraph = styled.p`
   line-height: 20px;
   font-weight: 400;
   letter-spacing: -0.02rem;
+
+  @media screen and (max-height: 500px) {
+    font-size: 12px;
+    line-height: 16px;
+  }
 
   @media screen and (max-height: 600px) {
     font-size: 14px;
@@ -177,6 +187,14 @@ const StepNumber = styled.div`
   }
 `;
 
+const StyledCopyHeader = styled(CopyHeader)`
+  margin-bottom: 17px;
+
+  @media screen and (max-height: 500px) {
+    margin-bottom: 0;
+  }
+`;
+
 const StepContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -191,6 +209,11 @@ const StepTitle = styled.div`
   font-weight: 700;
   letter-spacing: -0.02rem;
 
+  @media screen and (max-height: 500px) {
+    font-size: 16px;
+    line-height: 23.74px;
+  }
+
   @media screen and (max-height: 600px) {
     font-size: 18px;
     line-height: 25.74px;
@@ -200,6 +223,11 @@ const StepTitle = styled.div`
 const StepText = styled.div`
   font-size: 13px;
   line-height: 18.61px;
+
+  @media screen and (max-height: 500px) {
+    font-size: 12px;
+    line-height: 16.61px;
+  }
 `;
 
 const ScrollWrapper = styled.div`
@@ -351,9 +379,9 @@ const About = ({ config, configURL, onCreateRemix }) => {
             }}
           >
             <Steps>
-              <CopyHeader style={{ marginBottom: '17px' }}>
+              <StyledCopyHeader>
                 {currentConfig.cardTwo.header}
-              </CopyHeader>
+              </StyledCopyHeader>
               {
                 currentConfig.cardTwo.steps.map(({ title, text }, idx) => (
                   <StepWrapper key={title}>
