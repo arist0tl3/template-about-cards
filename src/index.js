@@ -35,6 +35,7 @@ const ImageHeader = styled.div`
   height: 61.39%;
   width: 100%;
   background: url(${({ style: { image } }) => image}) center center / contain no-repeat;
+  cursor: ${({ style: { showPointer } }) => showPointer ? 'pointer' : 'initial'};
 
   svg {
     position: absolute;
@@ -331,7 +332,7 @@ const About = ({ config, configURL, onCreateRemix }) => {
           >
             <ImageHeader
               onClick={handleShow}
-              style={{ image: currentConfig.cardOne.image }}
+              style={{ image: currentConfig.cardOne.image, showPointer: currentConfig.cardOne.videoURL }}
             >
               {currentConfig.cardOne.videoURL && <PlayIcon />}
             </ImageHeader>
