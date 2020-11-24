@@ -236,14 +236,12 @@ const VideoOverlay = styled.div`
 `;
 
 const About = ({ config, configURL, onCreateRemix }) => {
-  const [isReady, setIsReady] = useState(false);
   const [currentConfig, setCurrentConfig] = useState({});
 
   useEffect(() => {
     // If there is no configURL, just set the passed config
     if (!configURL) {
       setCurrentConfig(() => config);
-      setIsReady(() => true);
       return;
     }
 
@@ -251,7 +249,6 @@ const About = ({ config, configURL, onCreateRemix }) => {
     // in a reasonable amount of time, use the passed config
     const timeout = window.setTimeout(() => {
       setCurrentConfig(() => config);
-      setIsReady(() => true);
     }, 1000);
 
     const fetchConfig = async () => {
@@ -262,7 +259,6 @@ const About = ({ config, configURL, onCreateRemix }) => {
       if (data) {
         window.clearTimeout(timeout);
         setCurrentConfig(() => data);
-        setIsReady(() => true);
       }
     };
 
@@ -298,7 +294,7 @@ const About = ({ config, configURL, onCreateRemix }) => {
     }, 100);
   };
 
-  if (!isReady) return null;
+  if (!currentConfig.cardOne) return null;
 
   return (
     <Container>
