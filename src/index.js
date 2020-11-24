@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import axios from 'axios';
 import { useSwipeable } from 'react-swipeable';
 
 import PlayIcon from './Components/SVG/Play';
@@ -263,36 +262,7 @@ const VideoOverlay = styled.div`
   justify-content: center;
 `;
 
-const About = ({ config, configURL, onCreateRemix }) => {
-  const [currentConfig, setCurrentConfig] = useState({});
-
-  useEffect(() => {
-    // If there is no configURL, just set the passed config
-    if (!configURL) {
-      setCurrentConfig(() => config);
-      return;
-    }
-
-    // Attempt to fetch a dynamic config, if we don't have it
-    // in a reasonable amount of time, use the passed config
-    const timeout = window.setTimeout(() => {
-      setCurrentConfig(() => config);
-    }, 1000);
-
-    const fetchConfig = async () => {
-      if (!configURL) return;
-
-      const { data } = await axios(configURL);
-
-      if (data) {
-        window.clearTimeout(timeout);
-        setCurrentConfig(() => data);
-      }
-    };
-
-    fetchConfig();
-  }, []);
-
+const About = ({ config, onCreateRemix }) => {
   const [cardIndex, setCardIndex] = useState(0);
   const [showOverlay, setShowOverlay] = useState(false);
   const [showOpacity, setShowOpacity] = useState(false);
@@ -314,7 +284,7 @@ const About = ({ config, configURL, onCreateRemix }) => {
   };
 
   const handleShow = () => {
-    if (!currentConfig.cardOne.videoURL) return;
+    if (!config.cardOne.videoURL) return;
 
     setShowOverlay(() => true);
     window.setTimeout(() => {
@@ -322,12 +292,12 @@ const About = ({ config, configURL, onCreateRemix }) => {
     }, 100);
   };
 
-  if (!currentConfig.cardOne) return null;
+  if (!config.cardOne) return null;
 
   return (
     <Container>
       {
-        currentConfig.cardOne.videoURL &&
+        config.cardOne.videoURL &&
         <VideoOverlay
           style={{ showOpacity, showOverlay }}
           onClick={handleHide}
@@ -338,7 +308,7 @@ const About = ({ config, configURL, onCreateRemix }) => {
               width={window.innerWidth * 0.9}
               height={window.innerWidth * 0.9 * 0.5625}
               title={'Template Tutorial'}
-              src={currentConfig.cardOne.videoURL}
+              src={config.cardOne.videoURL}
               frameBorder={'0'}
               allow={'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'}
               allowFullScreen
@@ -356,16 +326,16 @@ const About = ({ config, configURL, onCreateRemix }) => {
           >
             <ImageHeader
               onClick={handleShow}
-              style={{ image: currentConfig.cardOne.image, showPointer: currentConfig.cardOne.videoURL }}
+              style={{ image: config.cardOne.image, showPointer: config.cardOne.videoURL }}
             >
-              {currentConfig.cardOne.videoURL && <PlayIcon />}
+              {config.cardOne.videoURL && <PlayIcon />}
             </ImageHeader>
             <CopyWrapper>
               <CopyHeader>
-                {currentConfig.cardOne.header}
+                {config.cardOne.header}
               </CopyHeader>
               <CopyParagraph>
-                {currentConfig.cardOne.paragraph}
+                {config.cardOne.paragraph}
               </CopyParagraph>
             </CopyWrapper>
           </ScrollWrapper>
@@ -380,10 +350,10 @@ const About = ({ config, configURL, onCreateRemix }) => {
           >
             <Steps>
               <StyledCopyHeader>
-                {currentConfig.cardTwo.header}
+                {config.cardTwo.header}
               </StyledCopyHeader>
               {
-                currentConfig.cardTwo.steps.map(({ title, text }, idx) => (
+                config.cardTwo.steps.map(({ title, text }, idx) => (
                   <StepWrapper key={title}>
                     <StepNumber>{idx + 1}</StepNumber>
                     <StepContent>
@@ -403,11 +373,11 @@ const About = ({ config, configURL, onCreateRemix }) => {
             }}
           >
             <ImageHeader
-              style={{ image: currentConfig.cardThree.image }}
+              style={{ image: config.cardThree.image }}
             />
             <CopyWrapper>
               <CopyHeader>
-                {currentConfig.cardThree.header}
+                {config.cardThree.header}
               </CopyHeader>
             </CopyWrapper>
           </ScrollWrapper>
@@ -457,7 +427,6 @@ About.propTypes = {
       header: PropTypes.string.isRequired,
     }),
   }),
-  configURL: PropTypes.string,
   onCreateRemix: PropTypes.func,
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "@arist0tl3/template-about-cards",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Easily bring cards into your Koji&#x27;s about context",
   "author": "arist0tl3",
   "license": "MIT",
@@ -24,11 +24,9 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "axios": "^0.20.0",
     "react": "^16.13.1"
   },
   "devDependencies": {
-    "axios": "^0.20.0",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
