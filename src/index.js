@@ -31,80 +31,19 @@ const CardContent = styled.div`
 
 const ImageHeader = styled.div`
   position: relative;
-  height: 61.39%;
-  width: 100%;
-  background: url(${({ style: { image } }) => image}) center center / contain no-repeat;
-  cursor: ${({ style: { showPointer } }) => showPointer ? 'pointer' : 'initial'};
-
-  svg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    fill: #ffffff;
-    width: 64px;
-    height: 64px;
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8));
-  }
-`;
-
-const CopyWrapper = styled.div`
-  height: 38.61%;
-  width: 100%;
-  padding: 24px;
-`;
-
-const Steps = styled.div`
   height: 100%;
   width: 100%;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const CopyHeader = styled.header`
-  font-size: 25px;
-  font-style: italic;
-  font-weight: bold;
-  line-height: 35.5px;
-
-  @media screen and (max-height: 500px) {
-    font-size: 16px;
-    line-height: 22.5px;
-  }
-
-  @media screen and (max-height: 600px) {
-    font-size: 20px;
-    line-height: 27.5px;
-  }
-`;
-
-const CopyParagraph = styled.p`
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 400;
-  letter-spacing: -0.02rem;
-
-  @media screen and (max-height: 500px) {
-    font-size: 12px;
-    line-height: 16px;
-  }
-
-  @media screen and (max-height: 600px) {
-    font-size: 14px;
-    line-height: 18px;
-  }
+  background: ${({ style: { backgroundColor } }) => backgroundColor || '#ffffff'} url(${({ style: { image } }) => image}) top center / contain no-repeat;
+  cursor: ${({ style: { showPointer } }) => showPointer ? 'pointer' : 'initial'};
 `;
 
 const Controls = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 96px;
-  width: 100%;
-  padding: 0 24px;
+  height: 72px;
+  width: calc(100% - 32px);
+  padding: 0 16px;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -151,90 +90,12 @@ const Indicator = styled.div`
   cursor: pointer;
 `;
 
-const StepWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  margin: 24px 0 0 0;
-  width: 100%;
-
-  @media screen and (max-height: 600px) {
-    margin: 12px 0 0 0;
-  }
-`;
-
-const StepNumber = styled.div`
-  font-size: 16.43px;
-  line-height: 22.37px;
-  font-weight: bold;
-  margin-top: -3px;
-  color: #007aff;
-  background: rgba(0, 122, 255, 0.1);
-  width: 35.05px;
-  height: 35.05px;
-  min-width: 35.05px;
-  min-height: 35.05px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  margin-right: 17px;
-
-  @media screen and (max-height: 600px) {
-    display: none;
-  }
-`;
-
-const StyledCopyHeader = styled(CopyHeader)`
-  margin-bottom: 17px;
-
-  @media screen and (max-height: 500px) {
-    margin-bottom: 0;
-  }
-`;
-
-const StepContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  color: #000000;
-`;
-
-const StepTitle = styled.div`
-  font-size: 20px;
-  line-height: 27.24px;
-  font-weight: 700;
-  letter-spacing: -0.02rem;
-
-  @media screen and (max-height: 500px) {
-    font-size: 16px;
-    line-height: 23.74px;
-  }
-
-  @media screen and (max-height: 600px) {
-    font-size: 18px;
-    line-height: 25.74px;
-  }
-`;
-
-const StepText = styled.div`
-  font-size: 13px;
-  line-height: 18.61px;
-
-  @media screen and (max-height: 500px) {
-    font-size: 12px;
-    line-height: 16.61px;
-  }
-`;
-
 const ScrollWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100% - 96px);
+  height: calc(100% - 72px);
   transition: transform 0.2s ease-in-out;
   transform: ${({ style: { isNext, isPrev } }) => {
     if (isNext) return 'translate(100vw, 0)';
@@ -262,14 +123,44 @@ const VideoOverlay = styled.div`
   justify-content: center;
 `;
 
-const About = ({ config, onCreateRemix }) => {
+const VideoWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+
+  width: 100%;
+  height: auto;
+
+  transform: translate(0, 91%);
+
+  video {
+    width: 100%;
+    height: auto;
+  }
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 8px));
+    fill: #ffffff;
+    width: 64px;
+    height: 64px;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8));
+    z-index: 10;
+  }
+`;
+
+const About = ({ cards, onCreateRemix, nextButtonText, remixButtonText }) => {
   const [cardIndex, setCardIndex] = useState(0);
   const [showOverlay, setShowOverlay] = useState(false);
   const [showOpacity, setShowOpacity] = useState(false);
+  const [iFrameSrc, setIFrameSrc] = useState(null);
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
-      if (cardIndex < 2) setCardIndex((i) => i + 1);
+      if (cardIndex < cards.length - 1) setCardIndex((i) => i + 1);
     },
     onSwipedRight: () => {
       if (cardIndex > 0) setCardIndex((i) => i - 1);
@@ -280,112 +171,76 @@ const About = ({ config, onCreateRemix }) => {
     setShowOpacity(() => false);
     window.setTimeout(() => {
       setShowOverlay(() => false);
+      setIFrameSrc(() => null);
     }, 600);
   };
 
-  const handleShow = () => {
-    if (!config.cardOne.videoURL) return;
+  const handleShow = (videoURL) => {
+    if (!videoURL) return;
 
+    setIFrameSrc(() => videoURL);
     setShowOverlay(() => true);
     window.setTimeout(() => {
       setShowOpacity(() => true);
     }, 100);
   };
 
-  if (!config.cardOne) return null;
+  if (!cards || !cards.length) return null;
+
+  let buttonText = nextButtonText && nextButtonText !== '' ? nextButtonText : 'Next';
+  if (cardIndex === cards.length - 1) buttonText = remixButtonText && remixButtonText !== '' ? remixButtonText : 'Get Started';
 
   return (
     <Container>
-      {
-        config.cardOne.videoURL &&
-        <VideoOverlay
-          style={{ showOpacity, showOverlay }}
-          onClick={handleHide}
-        >
-          {
-            showOverlay &&
-            <iframe
-              width={window.innerWidth * 0.9}
-              height={window.innerWidth * 0.9 * 0.5625}
-              title={'Template Tutorial'}
-              src={config.cardOne.videoURL}
-              frameBorder={'0'}
-              allow={'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'}
-              allowFullScreen
-            />
-          }
-        </VideoOverlay>
-      }
+      <VideoOverlay
+        style={{ showOpacity, showOverlay }}
+        onClick={handleHide}
+      >
+        {
+          showOverlay &&
+          <iframe
+            width={window.innerWidth * 0.9}
+            height={window.innerWidth * 0.9 * 0.5625}
+            title={'Template Tutorial'}
+            src={iFrameSrc}
+            frameBorder={'0'}
+            allow={'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'}
+            allowFullScreen
+          />
+        }
+      </VideoOverlay>
       <Card>
         <CardContent {...handlers}>
-          <ScrollWrapper
-            style={{
-              isActive: cardIndex === 0,
-              isPrev: cardIndex > 0,
-            }}
-          >
-            <ImageHeader
-              onClick={handleShow}
-              style={{ image: config.cardOne.image, showPointer: config.cardOne.videoURL }}
-            >
-              {config.cardOne.videoURL && <PlayIcon />}
-            </ImageHeader>
-            <CopyWrapper>
-              <CopyHeader>
-                {config.cardOne.header}
-              </CopyHeader>
-              <CopyParagraph>
-                {config.cardOne.paragraph}
-              </CopyParagraph>
-            </CopyWrapper>
-          </ScrollWrapper>
-
-          <ScrollWrapper
-            style={{
-              isActive: cardIndex === 1,
-              isNext: cardIndex < 1,
-              isPrev: cardIndex > 1,
-              background: '#f7f7f7',
-            }}
-          >
-            <Steps>
-              <StyledCopyHeader>
-                {config.cardTwo.header}
-              </StyledCopyHeader>
-              {
-                config.cardTwo.steps.map(({ title, text }, idx) => (
-                  <StepWrapper key={title}>
-                    <StepNumber>{idx + 1}</StepNumber>
-                    <StepContent>
-                      <StepTitle>{title}</StepTitle>
-                      <StepText>{text}</StepText>
-                    </StepContent>
-                  </StepWrapper>
-                ))
-              }
-            </Steps>
-          </ScrollWrapper>
-
-          <ScrollWrapper
-            style={{
-              isActive: cardIndex === 2,
-              isNext: cardIndex < 2,
-            }}
-          >
-            <ImageHeader
-              style={{ image: config.cardThree.image }}
-            />
-            <CopyWrapper>
-              <CopyHeader>
-                {config.cardThree.header}
-              </CopyHeader>
-            </CopyWrapper>
-          </ScrollWrapper>
+          {
+            cards.map(({ image, mp4, backgroundColor, videoURL }, idx) => (
+              <ScrollWrapper
+                key={idx}
+                style={{
+                  isActive: cardIndex === idx,
+                  isNext: cardIndex < idx,
+                  isPrev: cardIndex > idx,
+                }}
+              >
+                <ImageHeader
+                  style={{ image, showPointer: videoURL, backgroundColor }}
+                />
+                {
+                  (mp4 && mp4 !== '') &&
+                  <VideoWrapper onClick={videoURL ? () => handleShow(videoURL) : () => { }}>
+                    {videoURL && <PlayIcon />}
+                    <video width={'560'} height={'315'} autoPlay loop muted>
+                      <source src={mp4} type={'video/mp4'} />
+                    </video>
+                  </VideoWrapper>
+                }
+              </ScrollWrapper>
+            ))
+          }
 
           <Controls>
             <Indicators>
               {
-                [0, 1, 2].map((num) => (
+                (cards.length && cards.length > 1) && Array.from(Array(cards.length).keys()).map((num) => (
                   <Indicator
                     key={num}
                     onClick={() => setCardIndex(() => num)}
@@ -395,10 +250,10 @@ const About = ({ config, onCreateRemix }) => {
               }
             </Indicators>
             <NextButton
-              onClick={() => cardIndex === 2 ? onCreateRemix() : setCardIndex((i) => i + 1)}
-              style={{ isRemixButton: cardIndex === 2 }}
+              onClick={() => cardIndex === cards.length - 1 ? onCreateRemix() : setCardIndex((i) => i + 1)}
+              style={{ isRemixButton: cardIndex === cards.length - 1 }}
             >
-              {cardIndex === 2 ? 'Get Started' : 'Next'}
+              {buttonText}
             </NextButton>
           </Controls>
         </CardContent>
@@ -408,31 +263,21 @@ const About = ({ config, onCreateRemix }) => {
 };
 
 About.propTypes = {
-  config: PropTypes.shape({
-    cardOne: PropTypes.shape({
-      image: PropTypes.string.isRequired,
-      videoURL: PropTypes.string,
-      header: PropTypes.string.isRequired,
-      paragraph: PropTypes.string.isRequired,
-    }),
-    cardTwo: PropTypes.shape({
-      header: PropTypes.string.isRequired,
-      steps: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired,
-      })).isRequired,
-    }),
-    cardThree: PropTypes.shape({
-      image: PropTypes.string.isRequired,
-      header: PropTypes.string.isRequired,
-    }),
-  }),
+  cards: PropTypes.arrayOf(PropTypes.shape({
+    image: PropTypes.string.isRequired,
+    mp4: PropTypes.string,
+    backgroundColor: PropTypes.string,
+  })),
+  nextButtonText: PropTypes.string,
   onCreateRemix: PropTypes.func,
+  remixButtonText: PropTypes.string,
 };
 
 About.defaultProps = {
-  config: {},
+  cards: [],
+  nextButtonText: 'Next',
   onCreateRemix() { },
+  remixButtonText: 'Get Started',
 };
 
 export default About;
