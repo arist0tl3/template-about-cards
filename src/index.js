@@ -132,7 +132,7 @@ const VideoWrapper = styled.div`
   width: 100%;
   height: auto;
 
-  transform: translate(0, 91%);
+  transform: ${({ style: { mp4Offset } }) => mp4Offset ? `translate(0, ${mp4Offset}%)` : 'translate(0, 92%)'};
 
   video {
     width: 100%;
@@ -212,7 +212,7 @@ const About = ({ cards, onCreateRemix, nextButtonText, remixButtonText }) => {
       <Card>
         <CardContent {...handlers}>
           {
-            cards.map(({ image, mp4, backgroundColor, videoURL }, idx) => (
+            cards.map(({ image, mp4, mp4Offset, backgroundColor, videoURL }, idx) => (
               <ScrollWrapper
                 key={idx}
                 style={{
@@ -226,7 +226,10 @@ const About = ({ cards, onCreateRemix, nextButtonText, remixButtonText }) => {
                 />
                 {
                   (mp4 && mp4 !== '') &&
-                  <VideoWrapper onClick={videoURL ? () => handleShow(videoURL) : () => { }}>
+                  <VideoWrapper
+                    onClick={videoURL ? () => handleShow(videoURL) : () => { }}
+                    style={{ mp4Offset }}
+                  >
                     {videoURL && <PlayIcon />}
                     <video width={'560'} height={'315'} autoPlay loop muted>
                       <source src={mp4} type={'video/mp4'} />
@@ -266,6 +269,7 @@ About.propTypes = {
   cards: PropTypes.arrayOf(PropTypes.shape({
     image: PropTypes.string.isRequired,
     mp4: PropTypes.string,
+    mp4Offset: PropTypes.number,
     backgroundColor: PropTypes.string,
   })),
   nextButtonText: PropTypes.string,
