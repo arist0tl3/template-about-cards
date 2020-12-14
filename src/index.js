@@ -21,6 +21,7 @@ const Card = styled.div`
   background: #F5F5F7;
   border-radius: 17px;
   overflow: hidden;
+  transform: translateZ(0);
 `;
 
 const CardContent = styled.div`
