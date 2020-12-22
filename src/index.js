@@ -49,32 +49,23 @@ const RemixButton = styled.button`
   border: 0;
   outline: 0;
   border-radius: 4px;
-  font-size: 16px;
-  width: calc(100% - 48px);
-  padding: 16px 0;
+  font-size: 18px;
+  width: calc(100% - 52px);
+  height: 48px;
   cursor: pointer;
   display: flex;
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
   justify-content: center;
+  align-items: center;
   background: #267afd;
   color: #ffffff;
   margin-bottom: 10px;
-
-  @media screen and (max-height: 568px) {
-    font-size: 14px;
-    padding: 12px 0;
-  }
-
-  @media screen and (max-height: 524px) {
-    font-size: 14px;
-    padding: 8px 0;
-  }
 `;
 
 const SubText = styled.div`
   font-family: 'Open Sans', sans-serif;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 16px;
   line-height: 22px;
   display: flex;
