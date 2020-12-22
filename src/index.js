@@ -48,7 +48,7 @@ const Controls = styled.div`
 const RemixButton = styled.button`
   border: 0;
   outline: 0;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 18px;
   width: calc(100% - 52px);
   height: 48px;
